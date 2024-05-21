@@ -4,92 +4,18 @@
         <meta charset="utf-8">
         <title>Väderapplikation</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="style.scss">
+        <link rel="stylesheet" href="style/style.scss">
     </head>
     <body>
         <div id="wrapper">
+            <header>
+                <h1>Vädersidan</h1>
+                <div id="currentWeather">
+                    <svg></svg>
+                    <p></p>
+                </div>
+            </header>
             <section>
-                <svg id="cloudy" width="150px" height="150px">
-                    <!--
-                    M = absolute x/y path from origin (start of section)
-                    a = eliptical arc
-                    h = horizontal lineto
-                    z = close
-                    Alot of trial and error
-                    --> 
-                    <path
-                        d='M 50,55 
-                        a 20,20 1 0,0 0,50 
-                        h 50 
-                        a 15,15 1 1,0 0,-35 
-                        a 5,5 1 0,0 -10,-20 
-                        a 15,15 1 0,0 -35,10  
-                        z' 
-                    />
-                </svg>
-                <svg id="clouds-with-sun" width="150px" height="150px">
-                    <circle class="sun" cx="100" cy="50" r="28"/>
-                    <path
-                    d='M 50,55 
-                    a 20,20 1 0,0 0,50 
-                    h 50 
-                    a 15,15 1 1,0 0,-35 
-                    a 5,5 1 0,0 -10,-20 
-                    a 15,15 1 0,0 -35,10  
-                    z' 
-                    />
-                </svg>
-                <svg id="bad-weather" width="150px" height="150px">
-                    <path
-                    d='M 75,55 
-                    a 20,20 1 0,0 0,45 
-                    h 50 
-                    a 15,15 1 1,0 0,-35 
-                    a 5,5 1 0,0 -10,-20 
-                    a 15,15 1 0,0 -35,10  
-                    z' 
-                    />
-                    <path
-                    d='M 30,55 
-                    a 20,20 1 0,0 0,50 
-                    h 50 
-                    a 15,15 1 1,0 0,-35 
-                    a 5,5 1 0,0 -10,-20 
-                    a 15,15 1 0,0 -35,10  
-                    z' 
-                    />
-                </svg>
-                <svg id="rain" width="150px" height="150px">
-                    <path
-                        d='M 50,40
-                        a 20,20 1 0,0 0,50 
-                        h 50 
-                        a 15,15 1 1,0 0,-35 
-                        a 5,5 1 0,0 -10,-20 
-                        a 15,15 1 0,0 -35,10  
-                        z' 
-                    />
-                    <line x1="40" y1="93" x2="40" y2="120"/>
-                    <line x1="50" y1="93" x2="50" y2="120"/>
-                    <line x1="60" y1="93" x2="60" y2="120"/>
-                    <line x1="70" y1="93" x2="70" y2="120"/>
-                    <line x1="80" y1="93" x2="80" y2="120"/>
-                    <line x1="90" y1="93" x2="90" y2="120"/>
-                    <line x1="100" y1="93" x2="100" y2="120"/>
-                </svg>
-                <svg id="sun" width="150px" height="150px">
-                    <circle class="sun" cx="75" cy="70" r="28"/>
-                    <line x1="100" y1="95" x2="120" y2="110"/>
-                    <line x1="110" y1="70" x2="135" y2="70"/>
-                    <line x1="100" y1="45" x2="120" y2="30"/>
-
-                    <line x1="75" y1="10" x2="75" y2="35"/>
-                    <line x1="75" y1="105" x2="75" y2="125"/>
-
-                    <line x1="50" y1="95" x2="30" y2="110"/>
-                    <line x1="40" y1="70" x2="15" y2="70"/>
-                    <line x1="50" y1="45" x2="30" y2="30"/>
-                </svg>
                 <!--Current Weather SMHI-->
             </section>
             <section>

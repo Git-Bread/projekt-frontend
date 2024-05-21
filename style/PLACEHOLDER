@@ -13,6 +13,11 @@ path   {
     stroke: orange;
     stroke-width: 2px;
 }
+line {
+    stroke: black;
+    stroke-dasharray: 7;
+    stroke-width: 2;
+}
 #bad-weather {
     path {
         fill: lightgray;
@@ -22,15 +27,21 @@ path   {
     path {
         fill: rgb(149, 144, 144);
     }
-    line {
-        stroke: black;
-        stroke-dasharray: 7;
-        stroke-width: 2;
-    }
 }
 #sun {
     line {
         stroke: orange;
         stroke-width: 2;
+        stroke-dasharray: 8;
     }
+}
+#fog {
+    line {
+        stroke-width: 4;
+        stroke-dasharray: 0;
+        stroke: gray
+    }
+}
+#lightning {
+    fill: yellow;
 }
