@@ -2,7 +2,7 @@
   "name": "projekt-frontend",
   "version": "1.0.0",
   "description": "Projekt för frontend",
-  "source": "index.html",
+  "source": "html/index.html",
   "scripts": {
     "run": "parcel",
     "build": "parcel build"
