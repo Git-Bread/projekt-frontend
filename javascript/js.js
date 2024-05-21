@@ -1,10 +1,21 @@
+let data;
+
 window.onload = async function start() {
     let head = document.getElementById("weatherHeader");
     head.append(document.getElementById("cloudy"));
-    await load();
+    data = await getData();
 }
 
-async function load() {
-    let val = await fetch("GET", "/api/category/pmp3g/version/2/parameter.json");
-    console.log(val);
+async function getData() {  
+    try {
+        let rawData = await fetch("https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/16/lat/58/data.json");
+        if(!rawData.ok) {
+            console.log("problem with fetch content")
+        }
+        let data = await rawData.json();
+        return data;
+    }
+    catch(error) {
+        console.log("it broke")
+    }
 }
