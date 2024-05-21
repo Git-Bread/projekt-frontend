@@ -1,9 +1,10 @@
-let data;
-
 window.onload = async function start() {
     let head = document.getElementById("weatherHeader");
-    head.append(document.getElementById("cloudy"));
-    data = await getData();
+    let data = await getData();
+    head.append(document.getElementById(currentWeatherSymbol(data)));
+    let text = document.createElement("p");
+    text.innerHTML = "&#8451; " + currentTemprature(data);
+    head.append(text)
 }
 
 async function getData() {  
@@ -18,4 +19,71 @@ async function getData() {
     catch(error) {
         console.log("it broke")
     }
+}
+
+//gets current temprature based of earliest time gotten from api
+function currentTemprature(data) {
+    let temp = data.timeSeries[0].parameters[0].values[0]
+    return temp;
+}
+
+//gets current weather based of earliest time gotten from api
+function currentWeatherSymbol(data) {
+    let symbol;
+    ///TODO IF PERFECT
+    //SNOW
+    //THUNDER WITH AND WITHOUT WATER
+
+    switch (data.timeSeries[0].parameters[18].values[0]) {
+        case 1:
+            symbol = "sun"
+            break;
+        case 2:
+            symbol = "sun"
+            break;
+        case 3:
+            symbol = "cloudy"
+            break;
+        case 4:
+            symbol = "cloudy"
+            break;
+        case 5:
+            symbol = "bad-weather"
+            break;
+        case 6:
+            symbol = "bad-weather"
+            break;
+        case 7:
+            symbol = "fog"
+            break;
+        case 8:
+            symbol = "rain"
+            break;
+        case 9:
+            symbol = "rain"
+            break;
+        case 10:
+            symbol = "rain"
+            break;
+        case 11:
+            symbol = "thunder"
+            break;
+        case 18:
+            symbol = "rain"
+            break;
+        case 19:
+            symbol = "rain"
+            break;
+        case 20:
+            symbol = "rain"
+            break;
+        case 21:
+            symbol = "thunder"
+            break;
+        default:
+            symbol = "sun"
+            console.log("DEFAULTED DUE TO NEW WEATHER FORMAT OR LAZY IMPLEMENTATION");
+            break;
+    }
+    return symbol;
 }
