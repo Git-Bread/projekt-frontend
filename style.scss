@@ -1,0 +1,36 @@
+section {
+    margin-top: 20em;
+    min-width: 200px;
+    min-height: 200px;
+    background-color: lightcyan;
+}
+path   {
+    fill: white;
+    stroke: black;
+}
+.sun {
+    fill:rgb(255, 255, 22);
+    stroke: orange;
+    stroke-width: 2px;
+}
+#bad-weather {
+    path {
+        fill: lightgray;
+    }
+}
+#rain {
+    path {
+        fill: rgb(149, 144, 144);
+    }
+    line {
+        stroke: black;
+        stroke-dasharray: 7;
+        stroke-width: 2;
+    }
+}
+#sun {
+    line {
+        stroke: orange;
+        stroke-width: 2;
+    }
+}
