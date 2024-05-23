@@ -13,7 +13,6 @@ circle {
 }
 .sun {
     animation: rotate360 60s infinite;
-    overflow: visible;
     line {
         animation: sunbeam 4s infinite reverse;
         stroke: orange;

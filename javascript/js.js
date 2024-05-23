@@ -1,14 +1,26 @@
-var lightning;
+let lightning;
+const dateObject = new Date();
+
 window.onload = async function start() {
     let head = document.getElementById("weatherHeader");
     let data = await getData();
-    head.append(document.getElementsByClassName(currentWeatherSymbol(data, 0))[0]);
-    let text = document.createElement("p");
-    text.innerHTML = "&#8451; " + currentTemprature(data);
-    head.append(text)
-    let box = document.getElementById("currentWeather");
-    populate(data, 2, box, true);
 
+    //gets current times index in data
+    let currentPos = currentTime(data);
+
+    //copies icon from hidden element, probaly better to have it like some loose file somewhere but wanted to showcase my immense graphical talents *Semi-Sarcastic
+    head.append(document.getElementsByClassName(currentWeatherSymbol(data, currentPos))[0].cloneNode(true));
+
+    //current temprature
+    let text = document.createElement("p");
+    text.innerHTML = "&#8451; " + currentTemprature(data, currentPos);
+    head.append(text)
+
+    //populate main box
+    let box = document.getElementById("currentWeather");
+    populate(data, 3, box, true, currentPos, 5);
+
+    //setup for animation of lightning element
     lightning = document.getElementsByClassName("lightning");
 }
 
@@ -27,23 +39,30 @@ async function getData() {
 }
 
 //gets current temprature based of earliest time gotten from api
-function currentTemprature(data) {
-    let temp = data.timeSeries[0].parameters[0].values[0]
+function currentTemprature(data, time) {
+    let temp = data.timeSeries[time].parameters[0].values[0]
     return temp;
 }
 
-//populates object with info based on a set of data, a cap of amount of days in case of smaller, and an object to populate with said data, and headline if that is wanted
-function populate(data, cap, box, headline) {
+//populates object with info based on a set of data, a cap of amount of days in case of smaller, and an object to populate with said data, and headline if that is wanted.
+//current pos to mark current time period, kinda nice, skipinterwall selects the intervall of ignored entries for non current day
+function populate(data, cap, box, headline, currentPos, skipInterwvall) {
     let date;
     let runtime = 0;
+    let timeskip = false;
+    let skip = 0;
 
     //loop through all data
     for (let index = 0; index < data.timeSeries.length; index++) {
-        //only get for today and tomorow
-        if (runtime == cap) {
-            continue;
+
+        //skip extra stuff
+        if (timeskip) {
+            skip++;
+            if (skip < skipInterwvall) {
+                continue
+            }
+            skip = 0;
         }
-        console.log(data.timeSeries[index]);
 
         //overall container for a block
         let container = document.createElement("div");
@@ -55,10 +74,15 @@ function populate(data, cap, box, headline) {
         //populating index with values
         for (let index = 0; index < 5; index++) {
             let container = document.createElement("p");
-            if (index != 0) {
+            if (index > 1) {
                 container.setAttribute("class", "extra");   
             }
             info.push(container)
+        }
+
+        //marks current
+        if (index == currentPos) {
+            container.setAttribute("id", "currentTimePeriod");
         }
 
         //readable time array without excess T
@@ -67,14 +91,21 @@ function populate(data, cap, box, headline) {
         //overlay for days
         if (headline) {
             if (!date | date != time[0]) {
+                //only get for within cap
+                runtime++;
+                if (runtime == cap) {
+                    break;
+                }
+                
+                h3 = document.createElement("h3");
                 if (!date) {
-                    box.append(document.createElement("h3").innerHTML = "Idag, " + getDay(0))
+                    h3.innerHTML = "Idag, " + getDay(0);
                 }
                 else {
-                    box.append(document.createElement("h3").innerHTML = "Imorn, " + getDay(1));
+                    h3.innerHTML = "Imorn, " + getDay(1);
                 }
+                box.append(h3);
                 date = time[0];
-                runtime++;
             }   
         }
 
@@ -85,35 +116,57 @@ function populate(data, cap, box, headline) {
         info[0].innerHTML = "Tid: " + time[1];   
 
         //due to the api structure they swap future values position, nice >:(, probaly smarter to navigate as object but this is lighter
-        if (runtime < 2) {
+        //if new day
+        if (time[1] == "01:00") {
+            timeskip = true;
+        }
+
+        if (!timeskip) {
             info[1].innerHTML = "Temperatur: " + data.timeSeries[index].parameters[0].values[0] + " &#8451;";
         }
         else {
             info[1].innerHTML = "Temperatur: " + data.timeSeries[index].parameters[1].values[0] + " &#8451;";
         }
+
         info[2].innerHTML = "Vindhastighet: " + data.timeSeries[index].parameters[4].values[0] + " m/s";
         info[3].innerHTML = "Nederbörd: " + data.timeSeries[index].parameters[12].values[0] + " - " + data.timeSeries[index].parameters[13].values[0] + " mm/h";
         info[4].innerHTML = "Humiditet: " + data.timeSeries[index].parameters[5].values[0] + "%";
 
+        let textContainer = document.createElement("div");
+
+        //probaly more efficient to not send a giant object but hey it works, adds svg files relevant
+        let copy = document.getElementsByClassName(currentWeatherSymbol(data, index))[0].cloneNode(true);
+        container.append(copy);
+
         //populating container
         for (let index = 0; index < info.length; index++) {
-            container.append(info[index]);
+            textContainer.append(info[index]);
         }
+        
+        container.append(textContainer);
 
-        //probaly more efficient to not send a giant object but hey it works
-        console.log(document.getElementsByClassName(currentWeatherSymbol(data, index))[0]);
-        let copy = document.getElementsByClassName(currentWeatherSymbol(data, index))[0].cloneNode(true);
-        box.append(copy);
- 
         //push container content into box
         box.append(container);
     }
 }
 
+function currentTime(data) {
+    let target = dateObject.getHours() + ":00";
+    for (let index = 0; index < data.timeSeries.length; index++) {
+        console.log("ran");
+        //readable time array without excess T
+        var time = data.timeSeries[index].validTime.split('T');
+        //removes time post HH-MM
+        time[1] = time[1].substring(0, time[1].length - 4);
+        if (time[1] == target) {
+            return index;
+        }
+    }
+}
+
 //returns day based of current day and extra integer
 function getDay(extraVal) {
-    const date = new Date();
-    let day = date.getDay();
+    let day = dateObject.getDay();
     day = day + extraVal;
     let val;
     switch (day) {

@@ -3,7 +3,9 @@
 @import "header";
 @import "svg";
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import "general";
 
+//some general rules
 * {
     font-family: "Montserrat", sans-serif;
 }
@@ -18,6 +20,12 @@ body {
 }
 #content {
     padding-top: 9em;
+}
+p {
+    font-size: $fontSizeNormal;
+}
+svg {
+    z-index: -1;
 }
 
 
