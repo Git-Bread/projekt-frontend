@@ -2,7 +2,7 @@ var lightning;
 window.onload = async function start() {
     let head = document.getElementById("weatherHeader");
     let data = await getData();
-    head.append(document.getElementById(currentWeatherSymbol(data)));
+    head.append(document.getElementsByClassName(currentWeatherSymbol(data, 0))[0]);
     let text = document.createElement("p");
     text.innerHTML = "&#8451; " + currentTemprature(data);
     head.append(text)
@@ -43,6 +43,7 @@ function populate(data, cap, box, headline) {
         if (runtime == cap) {
             continue;
         }
+        console.log(data.timeSeries[index]);
 
         //overall container for a block
         let container = document.createElement("div");
@@ -81,8 +82,15 @@ function populate(data, cap, box, headline) {
         time[1] = time[1].substring(0, time[1].length - 4);
 
         //populating info array
-        info[0].innerHTML = "Tid: " + time[1];
-        info[1].innerHTML = "Temperatur: " + data.timeSeries[index].parameters[0].values[0] + " &#8451;";
+        info[0].innerHTML = "Tid: " + time[1];   
+
+        //due to the api structure they swap future values position, nice >:(, probaly smarter to navigate as object but this is lighter
+        if (runtime < 2) {
+            info[1].innerHTML = "Temperatur: " + data.timeSeries[index].parameters[0].values[0] + " &#8451;";
+        }
+        else {
+            info[1].innerHTML = "Temperatur: " + data.timeSeries[index].parameters[1].values[0] + " &#8451;";
+        }
         info[2].innerHTML = "Vindhastighet: " + data.timeSeries[index].parameters[4].values[0] + " m/s";
         info[3].innerHTML = "Nederbörd: " + data.timeSeries[index].parameters[12].values[0] + " - " + data.timeSeries[index].parameters[13].values[0] + " mm/h";
         info[4].innerHTML = "Humiditet: " + data.timeSeries[index].parameters[5].values[0] + "%";
@@ -92,6 +100,11 @@ function populate(data, cap, box, headline) {
             container.append(info[index]);
         }
 
+        //probaly more efficient to not send a giant object but hey it works
+        console.log(document.getElementsByClassName(currentWeatherSymbol(data, index))[0]);
+        let copy = document.getElementsByClassName(currentWeatherSymbol(data, index))[0].cloneNode(true);
+        box.append(copy);
+ 
         //push container content into box
         box.append(container);
     }
@@ -133,12 +146,12 @@ function getDay(extraVal) {
 }
 
 //gets current weather based of earliest time gotten from api
-function currentWeatherSymbol(data) {
+function currentWeatherSymbol(data, time) {
     let symbol;
     ///TODO IF PERFECT
     //SNOW
     //THUNDER WITH AND WITHOUT WATER
-    switch (data.timeSeries[0].parameters[18].values[0]) {
+    switch (data.timeSeries[time].parameters[18].values[0]) {
         case 1:
             symbol = "sun"
             break;
@@ -189,7 +202,7 @@ function currentWeatherSymbol(data) {
             console.log("DEFAULTED DUE TO NEW WEATHER FORMAT OR LAZY IMPLEMENTATION");
             break;
     }
-    return symbol + "-icon";
+    return symbol;
 }
 
 //lightning animation
