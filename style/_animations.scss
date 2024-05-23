@@ -25,3 +25,25 @@
         transform: translate(0,0)
     }
 }
+@keyframes rain {
+    100% {
+        stroke-dashoffset: 10;
+    }
+    66% {
+        stroke-dashoffset: 10;
+    }
+    33% {
+        stroke-dashoffset: 10;
+    }
+}
+@keyframes lightning {
+    100% {
+        opacity: 0;
+    }
+    80% {
+        opacity: 1;
+    }
+    20% {
+        opacity: 0;
+    }
+}

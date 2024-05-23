@@ -1,3 +1,4 @@
+var lightning;
 window.onload = async function start() {
     let head = document.getElementById("weatherHeader");
     let data = await getData();
@@ -5,6 +6,9 @@ window.onload = async function start() {
     let text = document.createElement("p");
     text.innerHTML = "&#8451; " + currentTemprature(data);
     head.append(text)
+
+
+    lightning = document.getElementsByClassName("lightning");
 }
 
 async function getData() {  
@@ -86,3 +90,14 @@ function currentWeatherSymbol(data) {
     }
     return symbol + "-icon";
 }
+
+//lightning animation
+function animationTime() {
+    var duration = Math.floor(Math.random() * 3);
+    if (duration == 0) {duration = 1};
+    for (let index = 0; index < lightning.length; index++) {
+        lightning[index].style.setProperty('--lightning-time', duration + 's');
+    }
+}
+
+setInterval(animationTime, 3000);

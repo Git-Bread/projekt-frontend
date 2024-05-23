@@ -4,7 +4,6 @@ path   {
 }
 line {
     stroke: black;
-    stroke-dasharray: 7;
     stroke-width: 2;
 }
 circle {
@@ -34,6 +33,14 @@ circle {
     path {
         fill: rgb(149, 144, 144);
     }
+    line {
+        stroke-dasharray: 7;
+        animation: rain 1s infinite reverse;
+    }
+    line:nth-child(odd) {
+        animation: rain 1s infinite reverse;
+        animation-delay: 0.15s;
+    }
 }
 .fog {
     line {
@@ -47,5 +54,6 @@ circle {
     }
 }
 .lightning {
-    fill: yellow;
+    fill: yellow !important;
+    animation: lightning var(--lightning-time) infinite reverse;
 }
