@@ -15,15 +15,19 @@
                 <div id="weatherHeader">
                 </div>
             </header>
-            <section>
-                <!--Current Weather SMHI-->
-            </section>
-            <section>
-                <!--Forecast-->
-            </section>
-            <section>
-                <!--Data?-->
-            </section>
+            <div id="content">
+                <section id="currentWeather">
+                </section>
+                <section id="forecast">
+                    <!--Forecast-->
+                </section>
+                <section id="map">
+                    <!--Data?-->
+                </section>
+            </div>
+            <footer>
+                <a href="debug.html">DEBUG</a>
+            </footer>
         </div>
         <div class="iconContainer" style="display: none">
             <svg id="cloud-icon" class="cloudy" viewBox="0 0 150 150">
@@ -143,8 +147,5 @@
                 />
             </svg>
         </div>
-        <footer>
-            <a href="debug.html">DEBUG</a>
-        </footer>
     </body>
 </html>
