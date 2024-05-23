@@ -33,7 +33,6 @@ function currentWeatherSymbol(data) {
     ///TODO IF PERFECT
     //SNOW
     //THUNDER WITH AND WITHOUT WATER
-    console.log(data.timeSeries[0].parameters[18].values[0]);
     switch (data.timeSeries[0].parameters[18].values[0]) {
         case 1:
             symbol = "sun"

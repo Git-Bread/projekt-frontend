@@ -7,14 +7,14 @@ line {
     stroke-dasharray: 7;
     stroke-width: 2;
 }
+circle {
+    fill:rgb(255, 255, 22);
+    stroke: orange;
+    stroke-width: 2px;
+}
 .sun {
     animation: rotate360 60s infinite;
     overflow: visible;
-    circle {
-        fill:rgb(255, 255, 22);
-        stroke: orange;
-        stroke-width: 2px;
-    }
     line {
         animation: sunbeam 4s infinite reverse;
         stroke: orange;
@@ -37,9 +37,13 @@ line {
 }
 .fog {
     line {
-        stroke-width: 4;
+        stroke-width: 6;
         stroke-dasharray: 0;
-        stroke: gray
+        stroke: gray;
+        animation: fog 8s infinite;
+    }
+    line:nth-child(odd) {
+        animation: fog 8s infinite reverse;
     }
 }
 .lightning {

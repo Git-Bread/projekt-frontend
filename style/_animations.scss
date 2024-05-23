@@ -11,3 +11,17 @@
         stroke-dasharray: 7;
     }
 }
+@keyframes fog {
+    100% {
+        transform: translate(0,0)
+    }
+    75% {
+       transform: translate(-5,0)
+    }
+    50% {
+        transform: translate(5,0)
+    }
+    25% {
+        transform: translate(0,0)
+    }
+}

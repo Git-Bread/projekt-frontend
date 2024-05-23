@@ -10,7 +10,12 @@
 body {
     margin: 0;
 }
-
+#debug {
+    display: flex;
+    svg {
+        width: 75px;
+    }
+}
 
 
 
