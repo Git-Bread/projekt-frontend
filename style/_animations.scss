@@ -1,0 +1,13 @@
+@keyframes rotate360 {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+@keyframes sunbeam {
+    100% {
+        stroke-dasharray: 10;
+    }
+    50% {
+        stroke-dasharray: 7;
+    }
+}

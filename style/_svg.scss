@@ -2,40 +2,46 @@ path   {
     fill: white;
     stroke: black;
 }
-.sun {
-    fill:rgb(255, 255, 22);
-    stroke: orange;
-    stroke-width: 2px;
-}
 line {
     stroke: black;
     stroke-dasharray: 7;
     stroke-width: 2;
 }
-#bad-weather {
+.sun {
+    animation: rotate360 60s infinite;
+    overflow: visible;
+    circle {
+        fill:rgb(255, 255, 22);
+        stroke: orange;
+        stroke-width: 2px;
+    }
+    line {
+        animation: sunbeam 4s infinite reverse;
+        stroke: orange;
+        stroke-width: 6;
+        stroke-dasharray: 10;
+    }
+    line:nth-child(odd) {
+        animation: sunbeam 4s infinite;
+    }
+}
+.bad-weather {
     path {
         fill: lightgray;
     }
 }
-#rain {
+.rain {
     path {
         fill: rgb(149, 144, 144);
     }
 }
-#sun {
-    line {
-        stroke: orange;
-        stroke-width: 2;
-        stroke-dasharray: 8;
-    }
-}
-#fog {
+.fog {
     line {
         stroke-width: 4;
         stroke-dasharray: 0;
         stroke: gray
     }
 }
-#lightning {
+.lightning {
     fill: yellow;
 }

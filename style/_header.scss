@@ -2,25 +2,30 @@ header {
     display: flex;
     width: 100%;
     justify-content: space-between;
+    background-color: $backgroundLightColor;
+    border-bottom: $borderColourLight 2px solid;
+    position: fixed;
+    height: 7.5em;
     h1 {
         font-size: $fontSizeLargest;
+        margin-left: 5%;
     }
     div {
         display: flex;
         margin: 1em;
-        margin-right: 10%;
+        margin-right: 5%;
         border: solid $borderColourLight;
         border-radius: 10px;
         padding-right: 1em;
+        background-color: $backgroundTransparent;
         p {
-            margin: auto;
-            font-size: $fontSizeLarge;
+            margin: auto; 
+            font-size: $fontSizeLargest;
         }
         svg {
-           width: 75px;
-           height: 75px;
-           margin-right: 1em;
-           margin-top: 0.2em;
+            width: 75px;
+            height: 75px;
+            margin: 0.2em;
         }
     }
 }
