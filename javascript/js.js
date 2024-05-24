@@ -46,11 +46,10 @@ async function getData(location) {
 //gets current temprature based of earliest time gotten from api
 function currentTemprature(data, time) {
     let temp
-    if (data.timeSeries[time].parameters[0].name != "t") {
-        temp = data.timeSeries[time].parameters[10].values[0];
-    }
-    else {
-        temp = data.timeSeries[time].parameters[0].values[0];
+    for (let i = 0; i < data.timeSeries[time].parameters.length; i++) {
+        if (data.timeSeries[time].parameters[i].name == "t") {
+            temp = data.timeSeries[time].parameters[i].values[0];
+        }
     }
     return temp;
 }
@@ -60,7 +59,6 @@ function currentTemprature(data, time) {
 function populate(data, cap, box, headline, currentPos) {
     let date;
     let runtime = 0;
-    let skip = 0;
 
     //loop through all data, 28 hours worth of display
     for (let index = 0; index < 28; index++) {
