@@ -1,6 +1,24 @@
 #content {
+    display: grid;
     section {
-        max-width: 45%;
+        max-width: 90%;
         margin: 2em;
     }
+}
+#mapBox {
+    grid-column: 2;
+    grid-row: 1;
+}
+#currentWeather {
+    grid-column: 1;
+    grid-row: 1/2;
+}
+#forecast {
+    grid-column: 2;
+    grid-row: 2;
+}
+#map {
+    width: 100%;
+    aspect-ratio : 1 / 1;
+    z-index: 0
 }

@@ -1,12 +1,30 @@
 let lightning;
 const dateObject = new Date();
+let map;
 
 //the whole thing pretty much
 async function start() {
     let head = document.getElementById("weatherHeader");
+    let location = [62.39129, 17.3063];
 
-    let location = [17.3063, 62.39129];
-    let data = await getData(location);
+    //time format for api
+    let month = dateObject.getMonth() + 1;
+    if (month < 10) {
+        month = "0" + month;
+    }
+    let hours = dateObject.getHours();
+    if (hours < 10) {
+        hours = "0" + hours;
+    }
+    hours = hours + "0000Z";
+
+    let time = dateObject.getFullYear() + month + dateObject.getDate() + "T" + hours;
+    let locationFetch = "http://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/" + location[1] + "/lat/" + location[0] + "/data.json";
+    let multipoint = "http://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/multipoint.json?downsample=40";
+    let multipointTemp = "http://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/multipoint/validtime/" + time + "/parameter/t/leveltype/hl/level/2/data.json?with-geo=false&downsample=40";
+    let data = await getData(locationFetch);
+    let multipointData = await getData(multipoint)
+    let multipointDataTemp = await getData(multipointTemp)
 
     //gets current times index in data
     let currentPos = currentTime(data);
@@ -23,16 +41,18 @@ async function start() {
     let box = document.getElementById("currentWeather");
     populate(data, 3, box, true, currentPos);
 
+    //generate map
+    maps(location, multipointData, multipointDataTemp);
+
     //setup for animation of lightning element
     lightning = document.getElementsByClassName("lightning");
     setInterval(animationTime, 3000);
 }
 
 //gets data with fetch call
-async function getData(location) {
-    console.log(location);
+async function getData(url) {
     try {
-        let rawData = await fetch("http://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/" + location[0] + "/lat/" + location[1] +"/data.json");
+        let rawData = await fetch(url);
         if(!rawData.ok) {
             console.log("problem with fetch content")
         }
@@ -44,9 +64,33 @@ async function getData(location) {
     }
 }
 
+//using leaflet for map
+function maps(location, position, positionTemp) {
+    //inital code mostly from leaflet (https://leafletjs.com/examples/quick-start/) values customized
+    map = L.map('map').setView(location, 7);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        minZoom: 7,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    console.log(positionTemp.timeSeries[0]);
+    let cord1, cord2;
+    for (let index = 0; index < position.coordinates.length; index++) {
+        cord2 = position.coordinates[index][0];
+        cord1 = position.coordinates[index][1]
+        L.marker([cord1, cord2], {
+            icon: L.divIcon({
+                className: 'text-labels',   // Set class for CSS styling
+                html: '<span>' + positionTemp.timeSeries[0].parameters[0].values[index] + " &#8451;" +'</span>'
+            }),
+        }).addTo(map);;
+    }
+}
+
 //gets current temprature based of earliest time gotten from api
 function currentTemprature(data, time) {
-    let temp
+    let temp;
     for (let i = 0; i < data.timeSeries[time].parameters.length; i++) {
         if (data.timeSeries[time].parameters[i].name == "t") {
             temp = data.timeSeries[time].parameters[i].values[0];

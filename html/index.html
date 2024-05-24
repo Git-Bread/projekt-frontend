@@ -7,11 +7,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="../style/style.scss">
         <link rel="icon" type="image/x-icon" href="/images/favicon.svg">
+
+        <!--Leaflet-->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
     </head>
     <body>
         <div id="wrapper">
             <header>
-                <h1>Vädersidan</h1>
+                <h1>Vädersidan - Sundsvall</h1>
                 <div id="weatherHeader">
                 </div>
             </header>
@@ -21,8 +28,14 @@
                 <section id="forecast">
                     <!--Forecast-->
                 </section>
-                <section id="map">
-                    <!--Data?-->
+                <section id="mapBox">
+                    <div id="map">
+                    
+                    </div>
+                    <div id="search">
+                        <label name="search">Sök:</label>
+                        <input type="text" name="search" onblur="search(this.value)">
+                    </div>
                 </section>
             </div>
             <footer>
