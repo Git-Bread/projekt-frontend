@@ -1,0 +1,54 @@
+#currentWeather {
+    h3 {
+        font-size: $fontSizeLarge;
+        border-bottom: $borderColourLight 1px solid;
+        width: 100%;
+        margin: 0.2em;
+    }
+    div {
+        transition: padding 1s;
+        padding-top: 0.1em;
+        padding-bottom: 0.1em;
+        display: flex;
+        margin-left: 1em;
+        width: 80%;
+        svg {
+            width: 75px;
+        }
+        div {
+            margin: 1em;
+            p {
+                white-space: nowrap;
+                margin: 0;
+                margin-top: 0.4em;
+                margin-left: 1em;
+            }
+            .extra {
+                display: none;
+            }
+        }
+    }
+    #currentTimePeriod {
+        transition: padding 1s;
+        border: $borderColourLight 1px solid;
+        border-radius: 10px;
+        padding-top: 0.5em;
+        padding-bottom: 0.5em;
+        svg {
+            margin-left: 1em;
+        }
+    }
+}
+
+.weatherList:hover {
+    border: solid 1px $borderColourLight;
+    border-radius: 25px;
+    padding: 1em;
+    div {
+        flex-direction: column;
+        .extra {
+            display: block !important;
+            grid-row: 2;
+        }
+    }
+}

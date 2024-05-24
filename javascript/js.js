@@ -1,7 +1,7 @@
 let lightning;
 const dateObject = new Date();
 
-
+//the whole thing pretty much
 async function start() {
     let head = document.getElementById("weatherHeader");
 
@@ -28,6 +28,7 @@ async function start() {
     setInterval(animationTime, 3000);
 }
 
+//gets data with fetch call
 async function getData(location) {
     console.log(location);
     try {
@@ -65,7 +66,7 @@ function populate(data, cap, box, headline, currentPos) {
 
         //overall container for a block
         let container = document.createElement("div");
-        container.setAttribute("id", "weatherList");
+        container.setAttribute("class", "weatherList");
 
         //create index for later pushing
         let info = [];
@@ -114,17 +115,28 @@ function populate(data, cap, box, headline, currentPos) {
         //populating info array
         info[0].innerHTML = "Tid: " + time[1];   
 
-        //inconsistent position of temprature data forces this brutish solution
+        //inconsistent positions of returns in api (first time seeing that) forces me to dubble check the names before adding them.. whooo recursion
         for (let i = 0; i < data.timeSeries[index].parameters.length; i++) {
             if (data.timeSeries[index].parameters[i].name == "t") {
                 info[1].innerHTML = "Temperatur: " + data.timeSeries[index].parameters[i].values[0] + " &#8451;";
+                continue
+            }
+            else if (data.timeSeries[index].parameters[i].name == "ws") {
+                info[2].innerHTML = "Vindhastighet: " + data.timeSeries[index].parameters[i].values[0] + " m/s";
+                continue
+            }
+            else if (data.timeSeries[index].parameters[i].name == "pmin") {
+                info[3].innerHTML = "Nederbörd: " + data.timeSeries[index].parameters[i].values[0];
+                continue
+            }
+            else if (data.timeSeries[index].parameters[i].name == "pmax") {
+                info[3].innerHTML = info[3].innerHTML + " - " + data.timeSeries[index].parameters[i].values[0] + " mm/h";
+                continue
+            }
+            else if (data.timeSeries[index].parameters[i].name == "r") {
+                info[4].innerHTML = "Humiditet: " + data.timeSeries[index].parameters[i].values[0] + "%";
             }
         }
-
-        //generall adds
-        info[2].innerHTML = "Vindhastighet: " + data.timeSeries[index].parameters[4].values[0] + " m/s";
-        info[3].innerHTML = "Nederbörd: " + data.timeSeries[index].parameters[12].values[0] + " - " + data.timeSeries[index].parameters[13].values[0] + " mm/h";
-        info[4].innerHTML = "Humiditet: " + data.timeSeries[index].parameters[5].values[0] + "%";
 
         let textContainer = document.createElement("div");
 
@@ -144,6 +156,7 @@ function populate(data, cap, box, headline, currentPos) {
     }
 }
 
+//gets current time based of date object
 function currentTime(data) {
     let target = dateObject.getHours() + ":00";
     //in case value is lower than double digit
@@ -264,6 +277,7 @@ function animationTime() {
     }
 }
 
+//revs engine
 window.onload = function() {
     start();
 };

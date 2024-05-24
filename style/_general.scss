@@ -3,38 +3,4 @@
         max-width: 45%;
         margin: 2em;
     }
-    #currentWeather {
-        h3 {
-            font-size: $fontSizeLarge;
-            border-bottom: $borderColourLight 1px solid;
-            width: 100%;
-            margin: 0.2em;
-        }
-        div {
-            margin-left: 1em;
-            display: flex;
-            width: 80%;
-            svg {
-                width: 75px;
-            }
-            div {
-                display: flex;
-                p {
-                    margin-left: 1em;
-                }
-                .extra {
-                    display: none;
-                }
-            }
-        }
-        #currentTimePeriod {
-            border: $borderColourLight 1px solid;
-            border-radius: 10px;
-            padding-top: 0.5em;
-            padding-bottom: 0.5em;
-            svg {
-                margin-left: 1em;
-            }
-        }
-    }
 }
