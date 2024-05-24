@@ -1,12 +1,12 @@
 let lightning;
 const dateObject = new Date();
 let map;
+let baseSpot = [62.39129, 17.3063];
 
 //the whole thing pretty much
 async function start() {
     let head = document.getElementById("weatherHeader");
-    let location = [62.39129, 17.3063];
-
+    let location = baseSpot;
     //time format for api
     let month = dateObject.getMonth() + 1;
     if (month < 10) {
@@ -25,6 +25,7 @@ async function start() {
     let data = await getData(locationFetch);
     let multipointData = await getData(multipoint)
     let multipointDataTemp = await getData(multipointTemp)
+    console.log(data);
 
     //gets current times index in data
     let currentPos = currentTime(data);
@@ -65,16 +66,19 @@ async function getData(url) {
 }
 
 //using leaflet for map
-function maps(location, position, positionTemp) {
+function maps(loc, position, positionTemp) {
     //inital code mostly from leaflet (https://leafletjs.com/examples/quick-start/) values customized
-    map = L.map('map').setView(location, 7);
+    map = L.map('map').setView(loc, 7);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
         minZoom: 7,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
-    console.log(positionTemp.timeSeries[0]);
+
+    map.on("zoomend", console.log(map.zoom));
+
+
     let cord1, cord2;
     for (let index = 0; index < position.coordinates.length; index++) {
         cord2 = position.coordinates[index][0];
@@ -86,6 +90,7 @@ function maps(location, position, positionTemp) {
             }),
         }).addTo(map);;
     }
+    L.control.scale().addTo(map);
 }
 
 //gets current temprature based of earliest time gotten from api

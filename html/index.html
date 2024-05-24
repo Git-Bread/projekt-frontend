@@ -18,7 +18,11 @@
     <body>
         <div id="wrapper">
             <header>
-                <h1>Vädersidan - Sundsvall</h1>
+                <h1>Vädersidan - <span>Sundsvall</span></h1>
+                <div id="search">
+                    <label name="search">Sök:</label>
+                    <input type="text" name="search" onblur="search(this.value)">
+                </div>
                 <div id="weatherHeader">
                 </div>
             </header>
@@ -29,12 +33,9 @@
                     <!--Forecast-->
                 </section>
                 <section id="mapBox">
+                    <h2>Tempratur Karta</h2>
                     <div id="map">
                     
-                    </div>
-                    <div id="search">
-                        <label name="search">Sök:</label>
-                        <input type="text" name="search" onblur="search(this.value)">
                     </div>
                 </section>
             </div>

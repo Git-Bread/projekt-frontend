@@ -20,5 +20,18 @@
 #map {
     width: 100%;
     aspect-ratio : 1 / 1;
-    z-index: 0
+    z-index: 0;
+    .leaflet-pane {
+        span {
+        font-size: $fontSizeLarge;
+        white-space: nowrap;
+        text-decoration: underline;
+        }
+    }
+}
+h2 {
+    margin: 0.2em;
+    font-size: $fontSizeLarge;
+    border-bottom: solid 1px $borderColourLight;
+    width: 100%;
 }
