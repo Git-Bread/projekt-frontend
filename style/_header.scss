@@ -23,6 +23,7 @@ header {
             font-size: $fontSizeLargest;
         }
         svg {
+            z-index: 1;
             width: 75px;
             height: 75px;
             margin: 0.2em;

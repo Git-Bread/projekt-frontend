@@ -1,9 +1,12 @@
 let lightning;
 const dateObject = new Date();
 
-window.onload = async function start() {
+
+async function start() {
     let head = document.getElementById("weatherHeader");
-    let data = await getData();
+
+    let location = [17.3063, 62.39129];
+    let data = await getData(location);
 
     //gets current times index in data
     let currentPos = currentTime(data);
@@ -18,15 +21,17 @@ window.onload = async function start() {
 
     //populate main box
     let box = document.getElementById("currentWeather");
-    populate(data, 3, box, true, currentPos, 5);
+    populate(data, 3, box, true, currentPos);
 
     //setup for animation of lightning element
     lightning = document.getElementsByClassName("lightning");
+    setInterval(animationTime, 3000);
 }
 
-async function getData() {  
+async function getData(location) {
+    console.log(location);
     try {
-        let rawData = await fetch("https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/16/lat/58/data.json");
+        let rawData = await fetch("http://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/" + location[0] + "/lat/" + location[1] +"/data.json");
         if(!rawData.ok) {
             console.log("problem with fetch content")
         }
@@ -40,29 +45,25 @@ async function getData() {
 
 //gets current temprature based of earliest time gotten from api
 function currentTemprature(data, time) {
-    let temp = data.timeSeries[time].parameters[0].values[0]
+    let temp
+    if (data.timeSeries[time].parameters[0].name != "t") {
+        temp = data.timeSeries[time].parameters[10].values[0];
+    }
+    else {
+        temp = data.timeSeries[time].parameters[0].values[0];
+    }
     return temp;
 }
 
 //populates object with info based on a set of data, a cap of amount of days in case of smaller, and an object to populate with said data, and headline if that is wanted.
 //current pos to mark current time period, kinda nice, skipinterwall selects the intervall of ignored entries for non current day
-function populate(data, cap, box, headline, currentPos, skipInterwvall) {
+function populate(data, cap, box, headline, currentPos) {
     let date;
     let runtime = 0;
-    let timeskip = false;
     let skip = 0;
 
-    //loop through all data
-    for (let index = 0; index < data.timeSeries.length; index++) {
-
-        //skip extra stuff
-        if (timeskip) {
-            skip++;
-            if (skip < skipInterwvall) {
-                continue
-            }
-            skip = 0;
-        }
+    //loop through all data, 28 hours worth of display
+    for (let index = 0; index < 28; index++) {
 
         //overall container for a block
         let container = document.createElement("div");
@@ -115,19 +116,14 @@ function populate(data, cap, box, headline, currentPos, skipInterwvall) {
         //populating info array
         info[0].innerHTML = "Tid: " + time[1];   
 
-        //due to the api structure they swap future values position, nice >:(, probaly smarter to navigate as object but this is lighter
-        //if new day
-        if (time[1] == "01:00") {
-            timeskip = true;
+        //inconsistent position of temprature data forces this brutish solution
+        for (let i = 0; i < data.timeSeries[index].parameters.length; i++) {
+            if (data.timeSeries[index].parameters[i].name == "t") {
+                info[1].innerHTML = "Temperatur: " + data.timeSeries[index].parameters[i].values[0] + " &#8451;";
+            }
         }
 
-        if (!timeskip) {
-            info[1].innerHTML = "Temperatur: " + data.timeSeries[index].parameters[0].values[0] + " &#8451;";
-        }
-        else {
-            info[1].innerHTML = "Temperatur: " + data.timeSeries[index].parameters[1].values[0] + " &#8451;";
-        }
-
+        //generall adds
         info[2].innerHTML = "Vindhastighet: " + data.timeSeries[index].parameters[4].values[0] + " m/s";
         info[3].innerHTML = "Nederbörd: " + data.timeSeries[index].parameters[12].values[0] + " - " + data.timeSeries[index].parameters[13].values[0] + " mm/h";
         info[4].innerHTML = "Humiditet: " + data.timeSeries[index].parameters[5].values[0] + "%";
@@ -152,8 +148,11 @@ function populate(data, cap, box, headline, currentPos, skipInterwvall) {
 
 function currentTime(data) {
     let target = dateObject.getHours() + ":00";
+    //in case value is lower than double digit
+    if (target.length < 5) {
+        target = "0" + target;
+    }
     for (let index = 0; index < data.timeSeries.length; index++) {
-        console.log("ran");
         //readable time array without excess T
         var time = data.timeSeries[index].validTime.split('T');
         //removes time post HH-MM
@@ -267,4 +266,6 @@ function animationTime() {
     }
 }
 
-setInterval(animationTime, 3000);
+window.onload = function() {
+    start();
+};
