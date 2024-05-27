@@ -174,7 +174,7 @@ function populate(data, cap, box, headline, currentPos) {
     let date;
     let runtime = 0;
 
-    //loop through all data, 28 hours worth of display
+    //loop through all data, 28 hours worth of display, smaller loop for 2 day firecast
     for (let index = 0; index < 28; index++) {
 
         //overall container for a block
@@ -266,6 +266,53 @@ function populate(data, cap, box, headline, currentPos) {
 
         //push container content into box
         box.append(container);
+    }
+
+    //larger loop for week forecast
+    let currentDate;
+    let timeGroup = [];
+    for (let index = 0; index < data.timeSeries.length; index++) {
+        let time;
+        if (timeGroup.length < 11) {
+            time = data.timeSeries[index + 1].validTime;
+        }
+        else {
+            time = data.timeSeries[index].validTime;
+        }
+        time = time.split('T')[0];
+        if (time != currentDate) {
+            timeGroup.push(data.timeSeries[index]);
+            currentDate = time;
+        }
+    }
+    for (let index = 0; index < timeGroup.length; index++) {
+        let container = document.createElement("div");
+        let info = [];
+        for (let i = 0; i < 4; i++) {
+            let box = document.createElement("p");
+            info.push(box);
+        }
+        for (let i = 0; i < timeGroup[index].parameters.length; i++) {
+            if (timeGroup[index].parameters[i].name == "t") {
+                info[0].innerHTML = "Temperatur: " + timeGroup[index].parameters[i].values[0] + " &#8451;";
+            }
+            else if (timeGroup[index].parameters[i].name == "pmin") {
+                info[1].innerHTML = "Nederbörd: " + timeGroup[index].parameters[i].values[0];
+            }
+            else if (timeGroup[index].parameters[i].name == "pmax") {
+                info[2].innerHTML = info[3].innerHTML + " - " + timeGroup[index].parameters[i].values[0] + " mm/h";
+            }
+        }
+        console.log(info);
+        //probaly more efficient to not send a giant object but hey it works, adds svg files relevant
+        let copy = document.getElementsByClassName(currentWeatherSymbol(data, index))[0].cloneNode(true);
+        container.append(copy);
+        let textContainer = document.createElement("div");
+        for (let i = 0; i < 4; i++) {
+            textContainer.append(info[i]);
+        }
+        container.append(textContainer);
+        document.getElementById("forecastBox").append(container);
     }
 }
 
