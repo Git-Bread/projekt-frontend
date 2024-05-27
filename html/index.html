@@ -18,7 +18,7 @@
     <body>
         <div id="wrapper">
             <header>
-                <h1>Vädersidan - <span>Sundsvall</span></h1>
+                <h1>Vädersidan - <span id="titleName">Sundsvall</span></h1>
                 <div id="search">
                     <label name="search">Sök:</label>
                     <input type="text" name="search" onblur="search(this.value)">
@@ -26,6 +26,7 @@
                 <div id="weatherHeader">
                 </div>
             </header>
+            <div id="error"></div>
             <div id="content">
                 <section id="currentWeather">
                 </section>

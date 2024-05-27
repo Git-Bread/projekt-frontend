@@ -5,6 +5,8 @@ let baseSpot = [62.39129, 17.3063];
 
 //the whole thing pretty much
 async function start() {
+    console.log("ran")
+    console.log(baseSpot)
     let head = document.getElementById("weatherHeader");
     let location = baseSpot;
     //time format for api
@@ -25,7 +27,9 @@ async function start() {
     let data = await getData(locationFetch);
     let multipointData = await getData(multipoint)
     let multipointDataTemp = await getData(multipointTemp)
-    console.log(data);
+
+    //cleanup for search
+    cleanup();
 
     //gets current times index in data
     let currentPos = currentTime(data);
@@ -43,12 +47,22 @@ async function start() {
     populate(data, 3, box, true, currentPos);
 
     //generate map
-    maps(location, multipointData, multipointDataTemp);
+    if (!map) {
+        maps(location, multipointData, multipointDataTemp);   
+    }
 
-    //setup for animation of lightning element
-    lightning = document.getElementsByClassName("lightning");
-    setInterval(animationTime, 3000);
 }
+
+function cleanup() { 
+    let box = document.getElementById("currentWeather");
+    while(box.firstElementChild) {
+        box.firstElementChild.remove();
+    }
+    let head = document.getElementById("weatherHeader");
+    while (head.firstElementChild) {
+        head.firstElementChild.remove();
+    }
+ }
 
 //gets data with fetch call
 async function getData(url) {
@@ -75,10 +89,6 @@ function maps(loc, position, positionTemp) {
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
-
-    map.on("zoomend", console.log(map.zoom));
-
-
     let cord1, cord2;
     for (let index = 0; index < position.coordinates.length; index++) {
         cord2 = position.coordinates[index][0];
@@ -91,6 +101,60 @@ function maps(loc, position, positionTemp) {
         }).addTo(map);;
     }
     L.control.scale().addTo(map);
+}
+
+function move(location) {
+    location = location[0];
+
+    let error = document.getElementById("error");
+    if (error.firstElementChild) {
+        while (error.firstElementChild) {
+           error.firstElementChild.remove();
+        } 
+    }
+    if (36.229429 < location[2] | location[2] < 2.250475 | 52.50044 > location[1] | location[1] > 70.083754) {
+        let message = document.createElement("p");
+        message.innerHTML = ("Invalid plats vald, välj en plats närmare/i scandinavien");
+        error.append(message);
+        return false;
+    }
+    baseSpot[0] = Number(location[1].substring(0, 8));
+    baseSpot[1] = Number(location[2].substring(0, 8));
+    start();
+    map.flyTo([location[1], location[2]], 8);
+    let marker = L.marker([location[1], location[2]]).addTo(map);
+    marker.bindPopup(location[0]).openPopup();
+    return true;
+}
+
+window.search = function search(val) {
+    let fetch = fetchSearch("https://nominatim.openstreetmap.org/search?format=json&q=" + val)
+    if (fetch) {
+        changeTitle(val);
+    }
+}
+
+function changeTitle(val) {
+    let value = val[0].toUpperCase() + val.substring(1);
+    console.log(value);
+    document.getElementById("titleName").innerHTML = value;
+}
+
+async function fetchSearch(url) {
+    try {
+        let rawData = await fetch(url);
+        if (!rawData.ok) {
+            console.log("problem with fetch content")
+        }
+        let data = await rawData.json();
+        let map = data.map(function (data) {
+            return [data.display_name, data.lat, data.lon];
+        });
+        move(map);
+    }
+    catch (error) {
+        console.log("it broke" + error)
+    }
 }
 
 //gets current temprature based of earliest time gotten from api
@@ -329,4 +393,8 @@ function animationTime() {
 //revs engine
 window.onload = function() {
     start();
+
+    //setup for animation of lightning element
+    lightning = document.getElementsByClassName("lightning");
+    setInterval(animationTime, 3000);
 };
