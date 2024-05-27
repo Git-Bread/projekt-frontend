@@ -62,6 +62,10 @@ function cleanup() {
     while (head.firstElementChild) {
         head.firstElementChild.remove();
     }
+    let forecast = document.getElementById("forecastBox");
+    while (forecast.firstElementChild) {
+        forecast.firstElementChild.remove();
+    }
  }
 
 //gets data with fetch call
@@ -271,6 +275,7 @@ function populate(data, cap, box, headline, currentPos) {
     //larger loop for week forecast
     let currentDate;
     let timeGroup = [];
+    let timeNumbers = [];
     for (let index = 0; index < data.timeSeries.length; index++) {
         let time;
         if (timeGroup.length < 11) {
@@ -281,6 +286,7 @@ function populate(data, cap, box, headline, currentPos) {
         }
         time = time.split('T')[0];
         if (time != currentDate) {
+            timeNumbers.push(time);
             timeGroup.push(data.timeSeries[index]);
             currentDate = time;
         }
@@ -292,18 +298,18 @@ function populate(data, cap, box, headline, currentPos) {
             let box = document.createElement("p");
             info.push(box);
         }
+        info[0].innerHTML = timeNumbers[index];
         for (let i = 0; i < timeGroup[index].parameters.length; i++) {
             if (timeGroup[index].parameters[i].name == "t") {
-                info[0].innerHTML = "Temperatur: " + timeGroup[index].parameters[i].values[0] + " &#8451;";
+                info[1].innerHTML = "Temperatur: " + timeGroup[index].parameters[i].values[0] + " &#8451;";
             }
             else if (timeGroup[index].parameters[i].name == "pmin") {
-                info[1].innerHTML = "Nederbörd: " + timeGroup[index].parameters[i].values[0];
+                info[2].innerHTML = "Nederbörd: " + timeGroup[index].parameters[i].values[0];
             }
             else if (timeGroup[index].parameters[i].name == "pmax") {
-                info[2].innerHTML = info[3].innerHTML + " - " + timeGroup[index].parameters[i].values[0] + " mm/h";
+                info[2].innerHTML = info[2].innerHTML + " - " + timeGroup[index].parameters[i].values[0] + " mm/h";
             }
         }
-        console.log(info);
         //probaly more efficient to not send a giant object but hey it works, adds svg files relevant
         let copy = document.getElementsByClassName(currentWeatherSymbol(data, index))[0].cloneNode(true);
         container.append(copy);

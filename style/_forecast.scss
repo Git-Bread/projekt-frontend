@@ -1,0 +1,26 @@
+#forecast {
+    max-width: 80%;
+    #forecastBox {
+        display: inline-block;
+        border: solid 1px $borderColourLight;
+        padding: 1em;
+        border-radius: 25px;
+        h3 {
+            font-size: $fontSizeLarge;
+            width: 100%;
+            border-bottom: 1px solid $borderColourLight;
+        }
+        svg {
+            width: 75px;
+            margin-right: 1em;
+        }
+        div {
+            display: flex;
+            p {
+                margin-left: 1em;
+                margin-right: 1em;
+                white-space: nowrap;
+            }        
+        }
+    }
+}
