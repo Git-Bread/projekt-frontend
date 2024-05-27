@@ -1,15 +1,15 @@
 #forecast {
     max-width: 80%;
+    h3 {
+        font-size: $fontSizeLarge;
+        width: 100%;
+        border-bottom: 1px solid $borderColourLight;
+    }
     #forecastBox {
         display: inline-block;
         border: solid 1px $borderColourLight;
         padding: 1em;
         border-radius: 25px;
-        h3 {
-            font-size: $fontSizeLarge;
-            width: 100%;
-            border-bottom: 1px solid $borderColourLight;
-        }
         svg {
             width: 75px;
             margin-right: 1em;
