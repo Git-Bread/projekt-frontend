@@ -25,6 +25,7 @@ body {
 }
 p {
     font-size: $fontSizeNormal;
+    @media screen and (max-width: 600px){font-size: calc($fontSizeNormal / 1.25);}
 }
 svg {
     z-index: -1;

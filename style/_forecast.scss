@@ -2,6 +2,7 @@
     max-width: 80%;
     h3 {
         font-size: $fontSizeLarge;
+        @media screen and (max-width: 1000px){font-size: calc($fontSizeLarge / 1.25);}
         width: 100%;
         border-bottom: 1px solid $borderColourLight;
     }
@@ -10,9 +11,12 @@
         border: solid 1px $borderColourLight;
         padding: 1em;
         border-radius: 25px;
+        max-width: 90%;
         svg {
             width: 75px;
+            min-width: 65px;
             margin-right: 1em;
+            @media screen and (max-width: 1600px){margin-right: 0.2em;}
         }
         div {
             display: flex;
@@ -20,6 +24,15 @@
                 margin-left: 1em;
                 margin-right: 1em;
                 white-space: nowrap;
+            }
+            @media screen and (max-width: 1600px){
+                div {
+                    width: 100%;
+                    flex-direction: column;
+                }
+                p {
+                    margin: 0.2em;
+                }
             }        
         }
     }

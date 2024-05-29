@@ -278,7 +278,7 @@ function populate(data, cap, box, headline, currentPos) {
     let timeNumbers = [];
     for (let index = 0; index < data.timeSeries.length; index++) {
         let time;
-        if (timeGroup.length < 11) {
+        if (timeGroup.length < 10) {
             time = data.timeSeries[index + 1].validTime;
         }
         else {

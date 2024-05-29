@@ -1,6 +1,7 @@
 #currentWeather {
     h3 {
         font-size: $fontSizeLarge;
+        @media screen and (max-width: 600px){font-size: calc($fontSizeLarge / 1.25);}
         border-bottom: $borderColourLight 1px solid;
         width: 100%;
         margin: 0.2em;
@@ -12,11 +13,14 @@
         display: flex;
         margin-left: 1em;
         width: 80%;
+        @media screen and (max-width: 1600px){width: 100%; margin-left: 0.2em;}
+        overflow: nowrap;
         svg {
             width: 75px;
         }
         div {
             margin: 1em;
+            @media screen and (max-width: 1600px){display: flex; flex-direction: column; margin: 0.2em;}
             p {
                 white-space: nowrap;
                 margin: 0;

@@ -18,10 +18,10 @@
     <body>
         <div id="wrapper">
             <header>
-                <h1>Vädersidan - <span id="titleName">Sundsvall</span></h1>
+                <h1>Vädersidan<span> - <span id="titleName">Sundsvall</span></span></h1>
                 <div id="search">
-                    <label name="search">Sök:</label>
-                    <input type="text" name="search" onblur="search(this.value)">
+                    <label for="searchBar">Sök:</label>
+                    <input type="search" id="searchBar" name="search" placeholder="Sundsvall" onblur="search(this.value)">
                 </div>
                 <div id="weatherHeader">
                 </div>
@@ -38,7 +38,7 @@
                     <!--Forecast-->
                 </section>
                 <section id="mapBox">
-                    <h2>Tempratur Karta</h2>
+                    <h2>Temperatur Karta</h2>
                     <div id="map">
                     <!--map-->
                     </div>
@@ -48,8 +48,9 @@
                 <a href="debug.html">DEBUG</a>
             </footer>
         </div>
-        <div class="iconContainer" style="display: none">
-            <svg class="cloudy" viewBox="0 0 150 150" alt="Molnigt">
+        <div class="iconContainer" style="display: none" role="img" aria-label="Molnigt"> 
+            <svg class="cloudy" viewBox="0 0 150 150">
+                <title>Molnigt</title>
                 <path
                     d='M 50,55 
                     a 20,20 1 0,0 0,50 
@@ -60,7 +61,8 @@
                     z'
                 />
             </svg>
-            <svg class="clouds-with-sun" viewBox="0 0 150 150" alt="Molnigt med sol">
+            <svg class="clouds-with-sun" viewBox="0 0 150 150" role="img" aria-label="Molnigt med sol">
+                <title>Molnigt med sol</title>
                 <circle cx="100" cy="50" r="28"/>
                 <path
                 d='M 50,55 
@@ -72,7 +74,8 @@
                 z' 
                 />
             </svg>
-            <svg class="bad-weather" viewBox="0 0 150 150" alt="Väldigt molnigt med tjocka moln">
+            <svg class="bad-weather" viewBox="0 0 150 150" role="img" aria-label="Väldigt molnigt med tjocka moln">
+                <title>Väldigt molnigt med tjocka moln</title>
                 <path
                 d='M 75,55 
                 a 20,20 1 0,0 0,45 
@@ -92,7 +95,8 @@
                 z' 
                 />
             </svg>
-            <svg class="rain" viewBox="0 0 150 150" alt="Regn">
+            <svg class="rain" viewBox="0 0 150 150" role="img" aria-label="Regn">
+                <title>Regn</title>
                 <path
                     d='M 50,40
                     a 20,20 1 0,0 0,50 
@@ -110,7 +114,8 @@
                 <line x1="90" y1="93" x2="90" y2="120"/>
                 <line x1="100" y1="93" x2="100" y2="120"/>
             </svg>
-            <svg class="sun" viewBox="0 0 150 150" alt="Soligt">
+            <svg class="sun" viewBox="0 0 150 150" role="img" aria-label="Soligt">
+                <title>Soligt</title>
                 <circle cx="75" cy="70" r="28"/>
                 <line x1="100" y1="95" x2="120" y2="110"/>
                 <line x1="110" y1="70" x2="135" y2="70"/>
@@ -123,7 +128,8 @@
                 <line x1="40" y1="70" x2="15" y2="70"/>
                 <line x1="50" y1="45" x2="30" y2="30"/>
             </svg>
-        <svg class="fog" viewBox="0 0 150 150" alt="Dimma">
+        <svg class="fog" viewBox="0 0 150 150" role="img" aria-label="Dimma">
+            <title>Dimma</title>
             <path d='M 50,40
                     a 20,20 1 0,0 0,50 
                     h 50 
@@ -136,7 +142,8 @@
             <line x1="115" y1="108" x2="30" y2="108" />
             <line x1="30" y1="118" x2="115" y2="118" />
         </svg>
-            <svg class="thunder" viewBox="0 0 150 150" allt="Åska/Blixtar">
+            <svg class="thunder" viewBox="0 0 150 150" role="img" aria-label="Åska/Blixtar">
+                <title>Åska/Blixtar</title>
                 <path
                     d='M 50,40
                     a 20,20 1 0,0 0,50 

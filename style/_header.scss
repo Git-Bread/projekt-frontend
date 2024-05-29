@@ -7,8 +7,53 @@ header {
     border-bottom: $borderColourLight 2px solid;
     position: fixed;
     height: 7.5em;
+    @media screen and (max-width: 1400px){
+        display: grid;
+        grid-template-columns: 60% 40%;
+        h1  {
+            grid-column: 1 / 2 !important;
+        }
+        #weatherHeader {
+            margin: 0;
+            grid-row: 2;
+            grid-column: 2;
+            width: 8em;
+            max-width: 80%;
+            height: 3em;
+            svg {
+                height: 45px;
+            }
+            p {
+                font-size: calc($fontSizeLarge / 1.25);
+            }
+        }
+        #search {
+            width: 20em;
+            max-width: 80%;
+            grid-row: 2;
+            grid-column: 1;
+            height: 2em;
+            padding: 0.5em !important;
+            label {
+                margin-right: 0.3em !important;
+            }
+            input {
+                max-width: 60%;
+            }
+        }
+    }
+    * {
+        white-space: nowrap;
+    }
     h1 {
         font-size: $fontSizeLargest;
+        @media screen and (max-width: 1400px){
+            font-size: calc($fontSizeLargest / 1.25); 
+            margin: 0.2em;
+            span {
+                display: none;
+            }
+        }
         margin-left: 5%;
     }
     div {
@@ -28,6 +73,22 @@ header {
             width: 75px;
             height: 75px;
             margin: 0.2em;
+        }
+    }
+    #search {
+        width: 25%;
+        padding: 1.4em;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        label {
+            font-size: $fontSizeNormal;
+            margin-right: 1em;
+            display: inline-block;
+        }
+        input {
+            height: $fontSizeNormal + 1;
+            width: 100%;
         }
     }
 }
