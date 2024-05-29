@@ -28,7 +28,7 @@ header {
             }
         }
         #search {
-            width: 20em;
+            width: 20em !important;
             max-width: 80%;
             grid-row: 2;
             grid-column: 1;
@@ -38,7 +38,7 @@ header {
                 margin-right: 0.3em !important;
             }
             input {
-                max-width: 60%;
+                max-width: 70%;
             }
         }
     }
