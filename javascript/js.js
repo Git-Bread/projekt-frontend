@@ -21,9 +21,9 @@ async function start() {
     hours = hours + "0000Z";
 
     let time = dateObject.getFullYear() + month + dateObject.getDate() + "T" + hours;
-    let locationFetch = "http://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/" + location[1] + "/lat/" + location[0] + "/data.json";
-    let multipoint = "http://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/multipoint.json?downsample=40";
-    let multipointTemp = "http://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/multipoint/validtime/" + time + "/parameter/t/leveltype/hl/level/2/data.json?with-geo=false&downsample=40";
+    let locationFetch = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/" + location[1] + "/lat/" + location[0] + "/data.json";
+    let multipoint = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/multipoint.json?downsample=40";
+    let multipointTemp = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/multipoint/validtime/" + time + "/parameter/t/leveltype/hl/level/2/data.json?with-geo=false&downsample=40";
     let data = await getData(locationFetch);
     let multipointData = await getData(multipoint)
     let multipointDataTemp = await getData(multipointTemp)
@@ -90,7 +90,7 @@ function maps(loc, position, positionTemp) {
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
         minZoom: 7,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
     let cord1, cord2;
