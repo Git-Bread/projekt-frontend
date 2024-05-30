@@ -76,7 +76,7 @@ async function getData(url) {
         return data;
     }
     catch(error) {
-        console.log("it broke")
+        console.log("it broke: " + error)
     }
 }
 
