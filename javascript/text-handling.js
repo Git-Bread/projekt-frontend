@@ -64,7 +64,7 @@ function populate(data, cap, box, headline, currentPos) {
                     break;
                 }
 
-                h3 = document.createElement("h3");
+                let h3 = document.createElement("h3");
                 if (!date) {
                     h3.innerHTML = "Idag, " + getDay(0);
                 }
