@@ -1,8 +1,14 @@
+import {animationTime} from "../javascript/animation.js";
+import {currentTemprature, currentTime, currentWeatherSymbol} from "../javascript/current-values.js";
+import {populate, cleanup} from "../javascript/text-handling.js";
+import {maps} from "../javascript/map.js";
+
+
 //a few global variables for ease of acess
 let lightning;
 const dateObject = new Date();
-let map;
 let baseSpot = [62.39129, 17.3063];
+firstRun = true;
 
 //runs the whole packet, reruns on location swap
 async function start() {
@@ -53,8 +59,9 @@ async function start() {
     populate(data, 3, box, true, currentPos);
 
     //generates map
-    if (!map) {
-        maps(location, multipointData, multipointDataTemp);   
+    if (firstRun) {
+        maps(location, multipointData, multipointDataTemp);
+        firstRun = false;   
     }
 }
 
@@ -73,33 +80,15 @@ async function getData(url) {
     }
 }
 
-//when a search gets executed
-window.search = function search(val) {
-    //contacting open streets api
-    let fetch = fetchSearch("https://nominatim.openstreetmap.org/search?format=json&q=" + val)
-    if (fetch) {
-        //changes title if it worked
-        changeTitle(val);
+//lightning animation, animates the lightning element to have a random timer for animation with a maximum of 3 seconds
+function animationTime() {
+    var duration = Math.floor(Math.random() * 3);
+    if (duration == 0) { duration = 1 };
+    for (let index = 0; index < lightning.length; index++) {
+        lightning[index].style.setProperty('--lightning-time', duration + 's');
     }
 }
 
-//fetches search location, similar to getData but diffrent parameters due to another api
-async function fetchSearch(url) {
-    try {
-        let rawData = await fetch(url);
-        if (!rawData.ok) {
-            console.log("problem with fetch content")
-        }
-        let data = await rawData.json();
-        let map = data.map(function (data) {
-            return [data.display_name, data.lat, data.lon];
-        });
-        move(map);
-    }
-    catch (error) {
-        console.log("it broke" + error)
-    }
-}
 
 //startup for all script
 window.onload = function() {
@@ -110,3 +99,5 @@ window.onload = function() {
     lightning = document.getElementsByClassName("lightning");
     setInterval(animationTime, 3000);
 };
+
+export {baseSpot, start};

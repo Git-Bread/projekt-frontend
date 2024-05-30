@@ -1,3 +1,5 @@
+import {getDay, currentWeatherSymbol} from "../javascript/current-values.js";
+
 //gets all information containers and cleans them out
 function cleanup() {
     let box = document.getElementById("currentWeather");
@@ -17,7 +19,6 @@ function cleanup() {
 //changes part of the page title based of location
 function changeTitle(val) {
     let value = val[0].toUpperCase() + val.substring(1);
-    console.log(value);
     document.getElementById("titleName").innerHTML = value;
 }
 
@@ -174,3 +175,5 @@ function populate(data, cap, box, headline, currentPos) {
         document.getElementById("forecastBox").append(container);
     }
 }
+
+export {populate, cleanup, changeTitle};

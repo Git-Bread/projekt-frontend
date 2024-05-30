@@ -1,3 +1,7 @@
+import { baseSpot, start } from "./js";
+import { changeTitle } from "./text-handling";
+let map;
+
 //using leaflet for map, function creates map
 function maps(loc, position, positionTemp) {
     //inital code mostly from leaflet (https://leafletjs.com/examples/quick-start/) values customized
@@ -30,6 +34,7 @@ function maps(loc, position, positionTemp) {
 
 //pans the map to new location
 function move(location) {
+    console.log("ran");
     location = location[0];
 
     //error handling
@@ -64,3 +69,33 @@ function move(location) {
     marker.bindPopup(location[0]).openPopup();
     return true;
 }
+
+//fetches search location, similar to getData but diffrent parameters due to another api
+async function fetchSearch(url) {
+    try {
+        let rawData = await fetch(url);
+        if (!rawData.ok) {
+            console.log("problem with fetch content")
+        }
+        let data = await rawData.json();
+        let map = data.map(function (data) {
+            return [data.display_name, data.lat, data.lon];
+        });
+        move(map);
+    }
+    catch (error) {
+        console.log("it broke" + error)
+    }
+}
+
+//when a search gets executed
+window.search = function search(val) {
+    //contacting open streets api
+    let fetch = fetchSearch("https://nominatim.openstreetmap.org/search?format=json&q=" + val)
+    if (fetch) {
+        //changes title if it worked
+        changeTitle(val);
+    }
+}
+
+export {maps};

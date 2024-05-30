@@ -1,3 +1,5 @@
+const dateObject = new Date();
+
 //gets current temprature based of earliest time gotten from api
 function currentTemprature(data, time) {
     let temp;
@@ -124,3 +126,5 @@ function currentWeatherSymbol(data, time) {
     }
     return symbol;
 }
+
+export {currentTemprature, currentTime, currentWeatherSymbol, getDay}
