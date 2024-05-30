@@ -7,10 +7,9 @@ import {maps} from "../javascript/map.js";
 let lightning;
 const dateObject = new Date();
 let baseSpot = [62.39129, 17.3063];
-firstRun = true;
 
 //runs the whole packet, reruns on location swap
-async function start() {
+async function start(firstRun) {
     //variables
     let head = document.getElementById("weatherHeader");
     let location = baseSpot;
@@ -92,7 +91,7 @@ function animationTime() {
 //startup for all script
 window.onload = function() {
     //all the action
-    start();
+    start(true);
 
     //setup for animation of "lightning" element
     lightning = document.getElementsByClassName("lightning");

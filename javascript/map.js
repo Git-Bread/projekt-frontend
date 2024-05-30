@@ -59,7 +59,7 @@ function move(location) {
     baseSpot[1] = Number(location[2].substring(0, 8));
 
     //re-initialises page content based of new spot
-    start();
+    start(false);
 
     //moves map
     map.flyTo([location[1], location[2]], 8);
