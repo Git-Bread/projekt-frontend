@@ -1,4 +1,3 @@
-import {animationTime} from "../javascript/animation.js";
 import {currentTemprature, currentTime, currentWeatherSymbol} from "../javascript/current-values.js";
 import {populate, cleanup} from "../javascript/text-handling.js";
 import {maps} from "../javascript/map.js";
@@ -76,7 +75,7 @@ async function getData(url) {
         return data;
     }
     catch(error) {
-        console.log("it broke: " + error)
+        console.log("yep");
     }
 }
 
