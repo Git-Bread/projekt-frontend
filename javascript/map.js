@@ -8,8 +8,8 @@ function maps(loc, position, positionTemp) {
     //creates a map and sets positon, base position being sundsvall, also limits zoom out range to make the temprature readable
     map = L.map('map').setView(loc, 7);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18,
-        minZoom: 7,
+        maxZoom: 9,
+        minZoom: 8,
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
