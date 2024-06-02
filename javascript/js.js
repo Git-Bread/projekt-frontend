@@ -19,6 +19,10 @@ async function start(firstRun) {
     if (month < 10) {
         month = "0" + month;
     }
+    let date = dateObject.getDate()
+    if (date < 10) {
+        date = "0" + date;
+    }
     let hours = dateObject.getHours();
     if (hours < 10) {
         hours = "0" + hours;
@@ -26,7 +30,7 @@ async function start(firstRun) {
     hours = hours + "0000Z";
 
     //finalised time format
-    let time = dateObject.getFullYear() + month + dateObject.getDate() + "T" + hours;
+    let time = dateObject.getFullYear() + month + date + "T" + hours;
 
     //urls for diffrent fetches, a location fetch, and a point fetch working togheter with a temprature fetch to assign temprature values on coordinates
     let locationFetch = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/" + location[1] + "/lat/" + location[0] + "/data.json";
